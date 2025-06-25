@@ -7,6 +7,9 @@ const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 
+const GMAIL_EMAIL_ACCOUNT = process.env('GMAIL_EMAIL_ACCOUNT')
+const GMAIL_APP_PASSWORD = process.env('GMAIL_APP_PASSWORD')
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -17,8 +20,8 @@ app.use(express.json());
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'GMAIL_EMAIL_ACCOUNT', //Example Gmail account -> 'text@gmail.com'
-    pass: 'GMAIL_APP_PASSWORD'  //Example Gmail App password -> 'jdbe fioe oefd djbe'
+    user: GMAIL_EMAIL_ACCOUNT, //Example Gmail account -> 'text@gmail.com'
+    pass: GMAIL_APP_PASSWORD  //Example Gmail App password -> 'jdbe fioe oefd djbe'
   },
   tls: { rejectUnauthorized: false }
 });
@@ -89,5 +92,6 @@ app.post('/sendmail', async (req, res) => {
 //---------------------------------------------------------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
+  console.log(`Gmail Email App Credentials: ${GMAIL_EMAIL_ACCOUNT} ${GMAIL_APP_PASSWORD}`);
   console.log(`📨  Email service listening on port ${PORT}`);
 });
